@@ -14,9 +14,9 @@ jobs:
       # KBUILD_BUILD_USER: github
       # KBUILD_BUILD_HOST: runner
 
-    steps:
-    - name: Checkout This Repo
-      uses: actions/checkout@v4
+    # steps:
+    # - name: Checkout This Repo
+    #   uses: actions/checkout@v4
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
