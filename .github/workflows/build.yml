@@ -13,25 +13,12 @@ jobs:
       DEFCONFIG: veux
       KBUILD_BUILD_USER: github
       KBUILD_BUILD_HOST: runner
-      working-directory: XiaomiKernel
 
     steps:
-    - name: Checkout This Repo
-      uses: actions/checkout@v4
-      with:
-        repository: lenonarddo/XiaomiKernel
-        path: XiaomiKernel
-
-    # - name: Build config
-    #   run: | 
-    #     mkdir out
-    #     make O=out ARCH=arm64 veux
-    # - name: build
-    #   run: |
-    #     ls ./
-    #     cd XiaomiKernel/
-    #     mkdir out/ 
-    #     make O=./out ARCH=arm64 veux
+    - name: Clone XiaomiKernel source
+      run: |
+        git clone --depth=1 https://github.com/lenonarddo/XiaomiKernel mykernel
+        ls mykernel
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
@@ -39,6 +26,7 @@ jobs:
       env:
         NAME: Dark-Ages-Último
       with:
+        kernel-dir: mykernel
         repository: lenonarddo/XiaomiKernel
         arch: arm64
         compiler: clang/14
@@ -50,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Image.gz
-        path: Image.gz
+        path:  mykernel/out/arch/arm64/boot/Image.gz
