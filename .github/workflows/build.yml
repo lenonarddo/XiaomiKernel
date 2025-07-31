@@ -13,7 +13,7 @@ jobs:
       CROSS_COMPILE: aarch64-linux-android-
       KBUILD_BUILD_USER: "ci"
       KBUILD_BUILD_HOST: "github"
-      DEFCONFIG: veux_defconfig
+      DEFCONFIG: defconfig
 
     steps:
     - name: Checkout Kernel Source
