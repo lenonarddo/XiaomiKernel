@@ -18,7 +18,7 @@ jobs:
     - name: Clone XiaomiKernel source
       run: |
         git clone --depth=1 https://github.com/lenonarddo/XiaomiKernel mykernel
-        ls mykernel
+        ls mykernel/arch/arm64/configs/
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
