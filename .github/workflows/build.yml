@@ -28,35 +28,16 @@ jobs:
           libncurses5-dev libelf-dev ccache curl unzip \
           python3 python-is-python3 git make wget
 
-    - name: Download Clang Toolchain (prebuilt Clang 17)
-      run: |
-        mkdir -p toolchains
-        cd toolchains
-        git clone --depth=1 -b 11.x https://gitlab.com/stormbreaker-project/google-clang clang-11
-        echo "clang-11 done"
-
-    - name: Download GCC Toolchain
-      run: |
-        git clone --depth=1 https://github.com/stormbreaker-project/aarch64-linux-android-4.9 gcc64
-        echo "gcc64 done"
-
-    - name: Make Output Directory
-      run: |
-        mkdir -p ../out
-        cd ../
-        export PATH=$PATH:$PWD/toolchains/clang-11/bin:$PWD//toolchains/gcc64/bin
-
-    - name: Setup defconfig
-      run: |
-        make O=./out ARCH=arm64 $DEFCONFIG
-
-    - name: Build Kernel with Clang + GCC 12.1
-      run: |
-        make -j$(nproc) O=./out \
-          ARCH=arm64 \
-          CC=clang \
-          CROSS_COMPILE=aarch64-linux-gnu- \
-          CLANG_TRIPLE=aarch64-linux-gnu-
+    - name: Android kernel build
+      uses: lemniskett/android-kernel-actions@master
+      id: build
+      env:
+        NAME: Loganysl
+      with:
+        arch: arm64
+        compiler: compiler_version
+        defconfig: defconfig
+        image: Image.gz-dtb
 
     - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
