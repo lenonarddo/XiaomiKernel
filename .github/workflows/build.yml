@@ -15,10 +15,10 @@ jobs:
       KBUILD_BUILD_HOST: runner
 
     steps:
-    - name: Checkout This Repo
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 1
+    # - name: Checkout This Repo
+    #   uses: actions/checkout@v4
+    #   with:
+    #     fetch-depth: 1
 
     - name: Merge defconfig + custom config
       run: |
