@@ -32,6 +32,7 @@ jobs:
       env:
         NAME: Dark-Ages-Último
       with:
+        repository: lenonarddo/XiaomiKernel
         arch: arm64
         compiler: clang/14
         defconfig: veux
