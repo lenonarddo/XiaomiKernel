@@ -13,6 +13,7 @@ jobs:
       DEFCONFIG: defconfig
       KBUILD_BUILD_USER: github
       KBUILD_BUILD_HOST: runner
+      
 
     steps:
     - name: Checkout This Repo
@@ -31,25 +32,23 @@ jobs:
       run: |
         mkdir -p toolchains
         cd toolchains
-        wget https://github.com/ClangBuiltLinux/tc-build/releases/download/20240101/clang+llvm-17.0.6-x86_64-linux-gnu.tar.xz
-        tar -xf clang+llvm-17.0.6-x86_64-linux-gnu.tar.xz
-        echo "CLANG_PATH=$PWD/clang+llvm-17.0.6-x86_64-linux-gnu" >> $GITHUB_ENV
+        git clone --depth=1 -b 11.x https://gitlab.com/stormbreaker-project/google-clang clang-11
+        echo "clang-11 done"
 
-    - name: Download GCC 12.1 Cross Compiler (aarch64)
+    - name: Download GCC Toolchain
       run: |
-        cd toolchains
-        wget https://releases.linaro.org/components/toolchain/binaries/12.1-2022.08/aarch64-linux-gnu/gcc-12.1.0-aarch64-linux-gnu.tar.xz
-        tar -xf gcc-12.1.0-aarch64-linux-gnu.tar.xz
-        echo "GCC64_PATH=$PWD/gcc-12.1.0-aarch64-linux-gnu" >> $GITHUB_ENV
+        git clone --depth=1 https://github.com/stormbreaker-project/aarch64-linux-android-4.9 gcc64
+        echo "gcc64 done"
 
     - name: Make Output Directory
-      run: mkdir -p out
+      run: |
+        mkdir -p ../out
+        cd ../
+        export PATH=$PATH:$PWD/toolchains/clang-11/bin:$PWD//toolchains/gcc64/bin
 
     - name: Setup defconfig
       run: |
-        cd kernel
-        PATH="$CLANG_PATH/bin:$PATH" \
-        make O=../out ARCH=arm64 $DEFCONFIG
+        make O=./out ARCH=arm64 $DEFCONFIG
 
     - name: Build Kernel with Clang + GCC 12.1
       run: |
@@ -58,7 +57,7 @@ jobs:
         make -j$(nproc) O=../out \
           ARCH=arm64 \
           CC=clang \
-          CROSS_COMPILE=$GCC64_PATH/bin/aarch64-linux-gnu- \
+          CROSS_COMPILE=aarch64-linux-gnu- \
           CLANG_TRIPLE=aarch64-linux-gnu-
 
     - name: Upload Image.gz-dtb
