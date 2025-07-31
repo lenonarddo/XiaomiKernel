@@ -27,6 +27,12 @@ jobs:
         make olddefconfig
         make savedefconfig
         mv defconfig arch/arm64/configs/veux_combined_defconfig
+    
+    - name: Upload defconfig
+      uses: actions/upload-artifact@v4
+      with:
+        name: defconfig
+        path: defconfig
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
