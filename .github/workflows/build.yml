@@ -13,23 +13,25 @@ jobs:
       DEFCONFIG: veux
       KBUILD_BUILD_USER: github
       KBUILD_BUILD_HOST: runner
+      working-directory: XiaomiKernel
 
     steps:
-    # - name: Checkout This Repo
-    #   uses: actions/checkout@v4
-    #   with:
-    #     repository: lenonarddo/XiaomiKernel
+    - name: Checkout This Repo
+      uses: actions/checkout@v4
+      with:
+        repository: lenonarddo/XiaomiKernel
+        path: XiaomiKernel
 
     # - name: Build config
     #   run: | 
     #     mkdir out
     #     make O=out ARCH=arm64 veux
-    - name: build
-      run: |
-        ls ./
-        cd XiaomiKernel/
-        mkdir out/ 
-        make O=./out ARCH=arm64 veux
+    # - name: build
+    #   run: |
+    #     ls ./
+    #     cd XiaomiKernel/
+    #     mkdir out/ 
+    #     make O=./out ARCH=arm64 veux
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
