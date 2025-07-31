@@ -26,6 +26,7 @@ jobs:
     #     make O=out ARCH=arm64 veux
     - name: build
       run: |
+        cd ../
         mkdir out/ 
         make O=./out ARCH=arm64 veux
         
