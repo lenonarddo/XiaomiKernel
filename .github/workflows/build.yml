@@ -34,7 +34,7 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: defconfig
+        defconfig: veux
         image: Image.gz
 
     - name: Upload Image.gz-dtb
