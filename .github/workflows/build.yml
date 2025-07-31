@@ -26,13 +26,12 @@ jobs:
         scripts/kconfig/merge_config.sh -m arch/arm64/configs/defconfig arch/arm64/configs/vendor/veux_QGKI.config
         make olddefconfig
         make savedefconfig
-        mv defconfig arch/arm64/configs/veux_combined_defconfig
     
     - name: Upload defconfig
       uses: actions/upload-artifact@v4
       with:
-        name: .config
-        path: .config
+        name: scripts/kconfig/.config
+        path: scripts/kconfig/.config
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
