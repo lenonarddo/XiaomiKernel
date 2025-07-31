@@ -21,7 +21,7 @@ jobs:
         ls mykernel/arch/arm64/configs/
         cd mykernel
         mkdir out/
-        make O=out ARCH=arm64 veux
+        make O=out ARCH=arm64 arch/arm64/configs/veux
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
