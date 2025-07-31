@@ -26,7 +26,7 @@ jobs:
     #     make O=out ARCH=arm64 veux
     - name: build
       run: |
-        cd ../
+        cd XiaomiKernel/
         mkdir out/ 
         make O=./out ARCH=arm64 veux
         
