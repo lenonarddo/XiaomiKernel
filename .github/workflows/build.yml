@@ -25,7 +25,7 @@ jobs:
         mkdir out/
         scripts/kconfig/merge_config.sh -m arch/arm64/configs/defconfig arch/arm64/configs/vendor/veux_QGKI.config
         make olddefconfig
-        cp ./defconfig arch/arm64/configs/veux
+        cp ./config arch/arm64/configs/veux
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
