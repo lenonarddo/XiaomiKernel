@@ -19,7 +19,9 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/lenonarddo/XiaomiKernel mykernel
         ls mykernel/arch/arm64/configs/
-
+        cd mykernel
+        mkdir out/
+        make O=out ARCH=arm64 veux
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
@@ -30,7 +32,7 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: defconfig.txt
+        defconfig: veux
         image: Image.gz
         
 
