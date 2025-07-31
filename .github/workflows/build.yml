@@ -10,7 +10,7 @@ jobs:
     env:
       ARCH: arm64
       SUBARCH: arm64
-      DEFCONFIG: defconfig
+      DEFCONFIG: veux
       KBUILD_BUILD_USER: github
       KBUILD_BUILD_HOST: runner
 
