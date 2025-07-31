@@ -30,8 +30,8 @@ jobs:
     - name: Upload defconfig
       uses: actions/upload-artifact@v4
       with:
-        name: scripts/kconfig/.config
-        path: scripts/kconfig/.config
+        name: arch/arm64/configs/.config
+        path: arch/arm64/configs/.config
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
