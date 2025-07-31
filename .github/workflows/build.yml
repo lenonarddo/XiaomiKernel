@@ -10,9 +10,9 @@ jobs:
     env:
       ARCH: arm64
       SUBARCH: arm64
-      DEFCONFIG: defconfig
-      KBUILD_BUILD_USER: github
-      KBUILD_BUILD_HOST: runner
+      # DEFCONFIG: defconfig
+      # KBUILD_BUILD_USER: github
+      # KBUILD_BUILD_HOST: runner
 
     steps:
     - name: Checkout This Repo
@@ -26,8 +26,9 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: ./arch/arm64/configs/veux
+        defconfig: veux
         image: Image.gz
+        source: .
 
     - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
