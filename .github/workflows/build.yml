@@ -27,7 +27,6 @@ jobs:
         NAME: Dark-Ages-Último
       with:
         kernel-dir: mykernel
-        repository: lenonarddo/XiaomiKernel
         arch: arm64
         compiler: clang/14
         defconfig: veux
