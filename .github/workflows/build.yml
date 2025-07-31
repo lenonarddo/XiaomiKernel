@@ -1,4 +1,4 @@
-name: Build Xiaomi Kernel (veux-r-oss)
+name: Build Xiaomi Kernel (veux-r-oss, Clang)
 
 on:
   workflow_dispatch:
@@ -10,42 +10,58 @@ jobs:
     env:
       ARCH: arm64
       SUBARCH: arm64
-      CROSS_COMPILE: aarch64-linux-android-
-      KBUILD_BUILD_USER: "ci"
-      KBUILD_BUILD_HOST: "github"
       DEFCONFIG: defconfig
+      KBUILD_BUILD_USER: github
+      KBUILD_BUILD_HOST: runner
 
     steps:
-    - name: Checkout Kernel Source
-      uses: actions/checkout@v4
+    - name: Checkout This Repo
+      uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
-    - name: Set up Build Environment
+    - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y bc bison flex libssl-dev make gcc clang python3 ccache libelf-dev build-essential git wget curl unzip
+        sudo apt-get install -y bc bison flex libssl-dev \
+          libncurses5-dev libelf-dev ccache curl unzip \
+          python3 python-is-python3 git make wget
 
-    - name: Download GCC Toolchain
+    - name: Download Clang Toolchain (prebuilt Clang 17)
       run: |
-        mkdir -p toolchain
-        cd toolchain
-        wget https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/aarch64-linux-gnu/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
-        tar -xf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
-        echo "PATH=$PWD/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin:$PATH" >> $GITHUB_ENV
+        mkdir -p toolchains
+        cd toolchains
+        wget https://github.com/ClangBuiltLinux/tc-build/releases/download/20240101/clang+llvm-17.0.6-x86_64-linux-gnu.tar.xz
+        tar -xf clang+llvm-17.0.6-x86_64-linux-gnu.tar.xz
+        echo "CLANG_PATH=$PWD/clang+llvm-17.0.6-x86_64-linux-gnu" >> $GITHUB_ENV
+
+    - name: Download GCC 12.1 Cross Compiler (aarch64)
+      run: |
+        cd toolchains
+        wget https://releases.linaro.org/components/toolchain/binaries/12.1-2022.08/aarch64-linux-gnu/gcc-12.1.0-aarch64-linux-gnu.tar.xz
+        tar -xf gcc-12.1.0-aarch64-linux-gnu.tar.xz
+        echo "GCC64_PATH=$PWD/gcc-12.1.0-aarch64-linux-gnu" >> $GITHUB_ENV
 
     - name: Make Output Directory
       run: mkdir -p out
 
-    - name: Kernel Defconfig
+    - name: Setup defconfig
       run: |
-        make O=out $DEFCONFIG
+        cd kernel
+        PATH="$CLANG_PATH/bin:$PATH" \
+        make O=../out ARCH=arm64 $DEFCONFIG
 
-    - name: Compile Kernel
+    - name: Build Kernel with Clang + GCC 12.1
       run: |
-        make -j$(nproc) O=out
+        cd kernel
+        PATH="$CLANG_PATH/bin:$PATH" \
+        make -j$(nproc) O=../out \
+          ARCH=arm64 \
+          CC=clang \
+          CROSS_COMPILE=$GCC64_PATH/bin/aarch64-linux-gnu- \
+          CLANG_TRIPLE=aarch64-linux-gnu-
 
-    - name: Upload Kernel Image
+    - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
       with:
         name: Image.gz-dtb
