@@ -28,7 +28,7 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: defconfig
+        defconfig: defconfig vendor/veux_QGKI.config
         image: Image.gz
 
     - name: Upload Image.gz-dtb
