@@ -27,12 +27,12 @@ jobs:
         NAME: Dark-Ages-Último
       with:
         arch: arm64
-        compiler: gcc/10
+        compiler: gcc/12
         defconfig: defconfig
-        image: Image.gz-dtb
+        image: Image.gz
 
     - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
       with:
-        name: Image.gz-dtb
-        path: Image.gz-dtb
+        name: Image.gz
+        path: Image.gz
