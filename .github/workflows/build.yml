@@ -23,15 +23,6 @@ jobs:
     - name: Merge defconfig + custom config
       run: |
         mkdir out/
-        scripts/kconfig/merge_config.sh -m arch/arm64/configs/defconfig arch/arm64/configs/vendor/veux_QGKI.config
-        make olddefconfig
-        make savedefconfig
-    
-    - name: Upload defconfig
-      uses: actions/upload-artifact@v4
-      with:
-        name: arch/arm64/configs/.config
-        path: arch/arm64/configs/.config
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
@@ -41,7 +32,7 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: veux_combined_defconfig
+        defconfig: veux
         image: Image.gz
 
     - name: Upload Image.gz-dtb
