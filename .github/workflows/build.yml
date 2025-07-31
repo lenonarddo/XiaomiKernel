@@ -52,7 +52,7 @@ jobs:
 
     - name: Build Kernel with Clang + GCC 12.1
       run: |
-        make -j$(nproc) O=../out \
+        make -j$(nproc) O=./out \
           ARCH=arm64 \
           CC=clang \
           CROSS_COMPILE=aarch64-linux-gnu- \
