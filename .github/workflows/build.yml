@@ -18,10 +18,10 @@ jobs:
     - name: Checkout This Repo
       uses: actions/checkout@v4
 
-    - name: Build config
-      run: | 
-        mkdir out
-        make O=out ARCH=arm64 veux
+    # - name: Build config
+    #   run: | 
+    #     mkdir out
+    #     make O=out ARCH=arm64 veux
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
@@ -31,9 +31,8 @@ jobs:
       with:
         arch: arm64
         compiler: clang/14
-        defconfig: veux
+        defconfig: defconfig
         image: Image.gz
-        source: .
 
     - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
