@@ -52,7 +52,6 @@ jobs:
 
     - name: Build Kernel with Clang + GCC 12.1
       run: |
-        cd kernel
         PATH="$CLANG_PATH/bin:$PATH" \
         make -j$(nproc) O=../out \
           ARCH=arm64 \
