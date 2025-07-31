@@ -21,7 +21,8 @@ jobs:
         ls mykernel/arch/arm64/configs/
         cd mykernel
         mkdir out/
-        make O=out ARCH=arm64 arch/arm64/configs/veux
+        scripts/kconfig/merge_config.sh -m arch/arm64/configs/defconfig arch/arm64/configs/vendor/veux_QGKI\.config
+        make oldconfig
         
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
