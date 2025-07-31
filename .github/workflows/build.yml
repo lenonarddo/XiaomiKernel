@@ -15,10 +15,10 @@ jobs:
       KBUILD_BUILD_HOST: runner
 
     steps:
-    - name: Checkout This Repo
-      uses: actions/checkout@v4
-      with:
-        repository: lenonarddo/XiaomiKernel
+    # - name: Checkout This Repo
+    #   uses: actions/checkout@v4
+    #   with:
+    #     repository: lenonarddo/XiaomiKernel
 
     # - name: Build config
     #   run: | 
@@ -26,6 +26,7 @@ jobs:
     #     make O=out ARCH=arm64 veux
     - name: build
       run: |
+        ls ./
         cd XiaomiKernel/
         mkdir out/ 
         make O=./out ARCH=arm64 veux
