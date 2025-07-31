@@ -19,13 +19,16 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: lenonarddo/XiaomiKernel
-        path: .
 
     # - name: Build config
     #   run: | 
     #     mkdir out
     #     make O=out ARCH=arm64 veux
-
+    - name: build
+      run: |
+        mkdir out/ 
+        make O=./out ARCH=arm64 veux
+        
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
       id: build
@@ -37,6 +40,7 @@ jobs:
         compiler: clang/14
         defconfig: veux
         image: Image.gz
+        
 
     - name: Upload Image.gz-dtb
       uses: actions/upload-artifact@v4
